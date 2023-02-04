@@ -45,6 +45,7 @@ app.get("/register", function (req, res) {
 
 //Adding new User in the collection.
 app.post("/register", function (req, res) {
+  //using bcrypt to salt the password of the new user
   bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
     const newUser = new User({
       email: req.body.username,
@@ -71,6 +72,7 @@ app.post("/login", function (req, res) {
       console.log(err);
     } else {
       if (foundUser) {
+        // using bcrypt to check the existing user
         bcrypt.compare(password, foundUser.password, function (err, result) {
           if (result === true) {
             res.render("secrets");
